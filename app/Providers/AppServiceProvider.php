@@ -12,16 +12,6 @@ use App\Observers\ReplyObserver;
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
-
-    /**
      * Bootstrap any application services.
      *
      * @return void
@@ -31,5 +21,12 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         Topic::observe(TopicObserver::class);
         Reply::observe(ReplyObserver::class);
+    }
+
+     public function register()
+    {
+        if (app()->isLocal()) {
+            $this->app->register(\VIACreative\SudoSu\ServiceProvider::class);
+        }
     }
 }
